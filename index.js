@@ -1,3 +1,14 @@
+function renderEditButton() {
+  var value = `<div class="div-edit card-body">
+    <div class="position-absolute bottom-0 translate-middle">
+      <button class="btn btn-outline-secondary edit-btn" type="button">Edit</button>
+    </div>
+  </div>`
+
+
+  return localStorage.getItem('isLogin') == 'true' ? value : '';
+}
+
 $(document).ready(function () {
   // URL API bạn muốn tải
   // const apiUrl = "https://your-api-url.com";
@@ -30,6 +41,7 @@ $(document).ready(function () {
     // cmt bắt đầu
     //hiển thị tất cả những blog đã sắp xếp
     var listBlogHtml = `<div class= "row content-div " >`;
+    var elementEdit = localStorage.getItem("isLogin") == true ? "<button>" : "";
     $.each(allBlogs, function (index, title) {
       listBlogHtml += `<div class="card col-4 " style="width: 18rem; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);">
         <img src="${title.img}" class="card-img-top" style="object-fit: cover;">
@@ -41,6 +53,7 @@ $(document).ready(function () {
             Math.min(title.content.length, 100)
           )}...</p>
           <p><b>Rank: ${title.rank}</b></p>
+          ${renderEditButton()}
         </div>
       </div>`;
     });
@@ -103,6 +116,7 @@ $(document).ready(function () {
                   Math.min(title.content.length, 100)
                 )}...</p>
                 <p><b>Rank: ${title.rank}</b></p>
+                ${renderEditButton()}
               </div>
             </div>`;
           });
@@ -145,16 +159,17 @@ $(document).ready(function () {
         <img src="${
           title.img
         }" class="card-img-top"  style="object-fit: cover;">
-        <div class="card-body">
-          <p><h5>${title.title}</h5></p>
-          <p><b>Author: </b>${title.author}<br>
-          <b>Content: </b>${title.content.substring(
-            0,
-            Math.min(title.content.length, 100)
-          )}...</p>
-          <p><b>Rank: ${title.rank}</b></p>
-        </div>
-      </div>`;
+          <div class="card-body">
+            <p><h5>${title.title}</h5></p>
+            <p><b>Author: </b>${title.author}<br>
+            <b>Content: </b>${title.content.substring(
+              0,
+              Math.min(title.content.length, 100)
+            )}...</p>
+            <p><b>Rank: ${title.rank}</b></p>
+            ${renderEditButton()}
+          </div>
+        </div>`;
         });
 
         $("#content-area").html(listBlogHtml + `</div>`); // Use .html() to replace existing content
@@ -208,16 +223,17 @@ $(document).ready(function () {
         <img src="${
           title.img
         }" class="card-img-top"  style="object-fit: cover;">
-        <div class="card-body">
-          <p><h5>${title.title}</h5></p>
-          <p><b>Author: </b>${title.author}<br>
-          <b>Content: </b>${title.content.substring(
-            0,
-            Math.min(title.content.length, 100)
-          )}...</p>
-          <p><b>Rank: ${title.rank}</b></p>
-        </div>
-      </div>`;
+          <div class="card-body">
+            <p><h5>${title.title}</h5></p>
+            <p><b>Author: </b>${title.author}<br>
+            <b>Content: </b>${title.content.substring(
+              0,
+              Math.min(title.content.length, 100)
+            )}...</p>
+            <p><b>Rank: ${title.rank}</b></p>
+            ${renderEditButton()}
+          </div>
+        </div>`;
         });
 
         $("#content-area").html(listBlogHtml + `</div>`); // Use .html() to replace existing content
@@ -237,4 +253,40 @@ $(document).ready(function () {
       }
     });
   });
+
+  function loginState() {
+    if (localStorage.getItem("isLogin") == "true") {
+      $(".div-logout").show();
+      $(".div-login").hide();
+      $(".div-edit").show();
+
+    } else {
+      $(".div-login").show();
+      $(".div-logout").hide();
+      $(".div-edit").hide();
+    }
+  }
+
+  // login chỗ này
+  $("#login").click(function () {
+    localStorage.setItem("isLogin", true);
+    loginState();
+  });
+
+  $("#logout").click(function () {
+    localStorage.setItem("isLogin", false);
+    loginState();
+  });
+
+  loginState();  
+
+
+  // $('body').delegate('button.edit-btn', 'click', function() {
+  //   var parentElm = $(this).parents()[3];
+  //   var title = $(parentElm).find('h5');
+  //   // console.log(parentElm)
+  //   var content = $(parentElm).find('p')
+  //   console.log(title.text())
+  // })
+
 });

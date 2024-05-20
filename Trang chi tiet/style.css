@@ -1,0 +1,14 @@
+#footer{
+    background-color: #c3dcd9;
+}
+
+div.container {
+    /* padding: top right bottom left;
+    padding: top/bottom left/right; */
+    padding: 50px 20px;
+}
+.btn-outline-secondary {
+    background-color: #20B7A5; /* Adjust color as needed */
+    border-color: #20B7A5;
+    color: white;
+}
